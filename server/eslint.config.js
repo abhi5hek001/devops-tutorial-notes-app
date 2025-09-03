@@ -3,8 +3,8 @@ export default [
   {
     files: ['**/*.{js,jsx}'],
     rules: {
-      semi: 'error',
-      'no-unused-vars': 'warn',
+      semi: 'error', // forces semicolons
+      'no-unused-vars': 'warn', // warns if variables are unused
     },
   },
 ];
