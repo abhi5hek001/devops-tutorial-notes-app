@@ -1,0 +1,45 @@
+name: build-and-deploy
+
+on:
+  push:
+    branches: [main, dev] # CD on push to master
+  pull_request:
+    branches: [main, dev] # CI on PRs
+
+jobs:
+  # ----- CI: Lint + Build -----
+  build-and-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Backend
+      - name: Install backend deps
+        working-directory: server
+        run: npm ci
+
+      - name: Lint backend (fail on warnings)
+        working-directory: server
+        run: npm run lint -- --max-warnings=0
+
+      # Frontend
+      - name: Install frontend deps
+        working-directory: client
+        run: npm ci
+
+      - name: Lint frontend (fail on warnings)
+        working-directory: client
+        run: npm run lint -- --max-warnings=0
+
+      # Sanity: Dockerfile build
+      - name: Build backend image
+        run: docker build -t backend ./server
+
+      - name: Build frontend image
+        run: docker build -t frontend ./client
