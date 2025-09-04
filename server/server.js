@@ -15,6 +15,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const unused_var = "Abhishek";
+
 // Routes
 app.use('/api/tasks', taskRoutes);
 
