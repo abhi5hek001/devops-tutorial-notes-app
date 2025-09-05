@@ -44,7 +44,7 @@ jobs:
       - name: Build frontend image
         run: docker build -t frontend ./client
   deploy:
-    needs: build-and-lint  
+    needs: build-and-lint
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
@@ -54,13 +54,16 @@ jobs:
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
-          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+          ssh-private-key: ${{ secrets.EC2_KEY }}
+
+      - name: Test SSH connection
+        run: ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "echo '✅ Connected to EC2'"
 
       - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-            cd /home/${{ secrets.EC2_USER }}/app   # your app dir on EC2
-            git pull origin main
-            docker compose down
+            cd /home/${{ secrets.EC2_USER }}/app  # adjust to your project path
+            git pull origin main || true
+            docker compose down || true
             docker compose up -d --build
           EOF
