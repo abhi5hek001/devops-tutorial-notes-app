@@ -67,12 +67,12 @@ function App() {
         <div className="max-w-4xl mx-auto px-4 py-6">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Task Manager</h1>
+              <h1 className="text-3xl font-bold text-gray-900">Task Manager Edited</h1>
               <p className="text-gray-600 mt-1">Simple task management for DevOps demo</p>
             </div>
             <button
               onClick={() => setIsDialogOpen(true)}
-              className="bg-black hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className="bg-green-500 hover:bg-green-300 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
             >
               Add Task
             </button>
